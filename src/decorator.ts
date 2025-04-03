@@ -42,7 +42,7 @@ export function Inject<T>(id?: TypeSymbolable<T>) {
     if (typeof parameterIndex == "number") {
       const t = Reflect.getMetadata("design:paramtypes", target);
       if (t?.length >= 1) {
-        id = t[0];
+        id = t[parameterIndex];
       }
 
       if (key != undefined) {
