@@ -1,5 +1,5 @@
 export type Identifical =
-  | Symbol
+  | symbol
   | Function
   ;
 
@@ -41,6 +41,8 @@ export const decorateSymbolOf = <T>(o: object, id: TypeSymbol<T>) => {
 export const getSymbolOf = <T>(o: object) => {
   if ($SymbolOf in o) {
     return o[$SymbolOf] as TypeSymbol<T>
+  } else if ("id" in o && (typeof o.id == "symbol" || typeof o.id == "function")) {
+    return o as TypeSymbol<T>;
   } else {
     return;
   }
