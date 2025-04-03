@@ -42,7 +42,7 @@ export function Inject<T>(id?: TypeSymbolable<T>) {
     if (typeof parameterIndex == "number") {
       const t = Reflect.getMetadata("design:paramtypes", target);
       if (t?.length >= 1) {
-        id = t[parameterIndex];
+        id ??= t[parameterIndex];
       }
 
       if (key != undefined) {
@@ -61,7 +61,7 @@ export function Inject<T>(id?: TypeSymbolable<T>) {
     } else {
       const t = Reflect.getMetadata("design:type", target);
       if (t) {
-        id = t;
+        id ??= t;
       }
 
       const state: DecoratorState = initializeDecoratorState(target.constructor);
@@ -115,11 +115,11 @@ export function createProvider<T, Class extends new (...args: any) => T>(cls: Cl
     return { val, idx }
   });
 
-  const params = requiresMap.filter((x): x is typeof x & { val: { type: "params" } } => x.val.type == "param");
+  const params = requiresMap.filter((x): x is typeof x & { val: { type: "param" } } => x.val.type == "param");
   const fields = requiresMap.filter((x): x is typeof x & { val: { type: "field" } } => x.val.type == "field");
 
   const provider = makeProvider(state.id!, requiresMap.map(({ val: { id } }) => id as TypeSymbol<T>), requires => {
-    const o = new cls(...params.map(x => {
+    const o = new cls(...params.sort((a,b) => a.val.i - b.val.i).map(x => {
       return requires[x.idx];
     }));
 
