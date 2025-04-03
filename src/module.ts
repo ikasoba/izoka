@@ -23,7 +23,7 @@ export class IzokaModule extends CustomEventTarget<{
   private constructor(
     private ctx: DependencyInjectorContext,
     private exporteds: Set<Provider<unknown>>,
-    private providerCaches = new Map<TypeSymbol<unknown>, unknown>()
+    private providerCaches: Map<TypeSymbol<unknown>, unknown>
   ) {
     super();
   }
@@ -76,11 +76,14 @@ export class IzokaModule extends CustomEventTarget<{
       }
     }
 
-    const injector = new DependencyInjectorContext(injectors);
+    const providerCaches = new Map<TypeSymbol<unknown>, unknown>();
+
+    const injector = new DependencyInjectorContext(injectors,providerCaches);
 
     const m = new IzokaModule(
       injector,
       exporteds,
+      providerCaches
     )
 
     injector.eventTarget = m;
