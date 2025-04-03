@@ -56,7 +56,7 @@ export class DependencyInjectorContext {
 
     const providers = this.injectors.get(id);
     if (!providers || providers.length <= 0) {
-      throw new ErrorProviderNotFound();
+      throw new ErrorProviderNotFound(id);
     }
 
     await this.validateSafeProvidable(providers);
@@ -126,8 +126,8 @@ export class DependencyInjectorContext {
 }
 
 export class ErrorProviderNotFound extends Error {
-  constructor() {
-    super("Provider not found.");
+  constructor(public required: TypeSymbol<unknown>) {
+    super(`Provider not found. required: ${required}`);
   }
 }
 
