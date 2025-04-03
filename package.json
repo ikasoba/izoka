@@ -1,0 +1,62 @@
+{
+  "type": "module",
+  "name": "@ikasoba000/izoka",
+  "version": "0.1.0",
+  "description": "Lightweight DI library.",
+  "main": ".dist/src/index.js",
+  "exports": {
+    "./decorator": {
+      "import": {
+        "default": "./.dist/decorator.js",
+        "types": "./.dist/decorator.d.ts"
+      }
+    },
+    "./module": {
+      "import": {
+        "default": "./.dist/module.js",
+        "types": "./.dist/module.d.ts"
+      }
+    },
+    "./injector": {
+      "import": {
+        "default": "./.dist/injector.js",
+        "types": "./.dist/injector.d.ts"
+      }
+    },
+    "./provider": {
+      "import": {
+        "default": "./.dist/provider.js",
+        "types": "./.dist/provider.d.ts"
+      }
+    },
+    "./symbol": {
+      "import": {
+        "default": "./.dist/symbol.js",
+        "types": "./.dist/symbol.d.ts"
+      }
+    },
+    ".": {
+      "import": {
+        "default": "./.dist/index.js",
+        "types": "./.dist/index.d.ts"
+      }
+    }
+  },
+  "scripts": {
+    "prepare": "rm -rf .dist/ && pnpm run build",
+    "build": "tsc -p ./tsconfig.build.json --declaration",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "reflect-metadata": "^0.2.2",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "^0.2.2"
+  },
+  "files": [ ".dist/" ]
+}
