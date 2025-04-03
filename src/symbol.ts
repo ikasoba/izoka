@@ -8,7 +8,7 @@ declare const $TypeOf: unique symbol;
 export interface TypeSymbol<T> {
   id: Identifical;
   isUnique: boolean;
-  generics?: WeakMap<TypeSymbolable<T>, TypeSymbolable<T>>;
+  generics?: WeakMap<TypeSymbolable<T>, TypeSymbol<T>>;
   [$TypeOf]: T;
 }
 
@@ -53,14 +53,14 @@ export const symbolOf = <T>({ name, id = Symbol(name), isUnique = true }: { name
   } as TypeSymbol<T>
 }
 
-export const genericOf = <R>(id: TypeSymbolable<unknown>, param: TypeSymbolable<unknown>, { isUnique = true } = {}): TypeSymbolable<R> => {
+export const genericOf = <R>(id: TypeSymbolable<unknown>, param: TypeSymbolable<unknown>, { isUnique = true } = {}): TypeSymbol<R> => {
   const s = getSymbolOf(id);
   if (!s) {
     throw new Error("object is not TypeSymbolable.");
   }
 
   const cached = s.generics?.get(param);
-  if (cached) return cached as TypeSymbolable<R>;
+  if (cached) return cached as TypeSymbol<R>;
 
   const res = symbolOf<R>({ name: `${typeSymbolableToString(s)}<${typeSymbolableToString(param)}>`, isUnique });
 
